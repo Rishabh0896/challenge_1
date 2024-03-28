@@ -94,11 +94,17 @@ long int count_words(char file_name[]) {
         printf("File Not Found!");
         return -1;
     }
-    int count = 0;
-    char c;
-    for (c = getc(fp); c != EOF; c = getc(fp))
-        if (c == ' ' || c == '\n' || c == '\t' || c == '\0')
+    long int count = 0L;
+    char ch;
+
+    while ((ch = fgetc(fp)) != EOF) {
+        // If the current character is whitespace
+        if (ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r') {
             count++;
+            // Skip consecutive whitespace characters
+            while ((ch = fgetc(fp)) == ' ' || ch == '\n' || ch == '\t' || ch == '\r');
+        }
+    }
     fclose(fp);
     return count;
 }
