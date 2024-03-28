@@ -8,10 +8,25 @@ long int count_characters(char[]);
 
 
 int main(int argc, char *argv[]) {
-    if (argc == 2) {
+    if (argc == 1) {
         // Print the help text
         printf("Incorrect args");
         return -1;
+    }
+    if (argc == 2) {
+        long int byte_count = bytes(argv[1]);
+        if (byte_count == -1) {
+            return -1;
+        }
+        long int line_count = count_lines(argv[1]);
+        if (line_count == -1) {
+            return -1;
+        }
+        long int word_count = count_words(argv[1]);
+        if (word_count == -1) {
+            return -1;
+        }
+        printf("%ld %ld %ld %s\n", line_count, word_count, byte_count, argv[1]);
     }
     if (argc == 3) {
         // Write extraction logic here
@@ -97,14 +112,14 @@ long int count_words(char file_name[]) {
     long int count = 0L;
     char ch;
 
-    while ((ch = fgetc(fp)) != EOF) {
+    while ((ch = getc(fp)) != EOF) {
         // If the current character is whitespace
         if (ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r') {
             count++;
             // Skip consecutive whitespace characters
-            while ((ch = fgetc(fp)) == ' ' || ch == '\n' || ch == '\t' || ch == '\r');
+            while ((ch = getc(fp)) == ' ' || ch == '\n' || ch == '\t' || ch == '\r');
         }
     }
     fclose(fp);
     return count;
-}
+} 
